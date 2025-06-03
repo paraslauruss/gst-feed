@@ -1,24 +1,32 @@
 FROM node:20-alpine
+
+# 1. Install required Linux packages
 RUN apk add --no-cache openssl
 
-EXPOSE 3000
-
+# 2. Set working directory
 WORKDIR /app
 
-ENV NODE_ENV=production
-
+# 3. Copy dependency files first
 COPY package.json package-lock.json* ./
 
+# 4. ⚠️ TEMPORARILY REMOVE NODE_ENV to install devDependencies
+# (Tailwind, postcss etc. are dev dependencies)
 RUN npm ci && npm cache clean --force
-# Remove CLI packages since we don't need them in production by default.
-# Remove this line if you want to run CLI commands in your container.
-RUN npm remove @shopify/cli
 
+# 5. Remove Shopify CLI (optional)
+RUN npm remove @shopify/cli || true
+
+# 6. Copy rest of the app
 COPY . .
 
-COPY prisma ./prisma
+# 7. Generate Prisma Client
 RUN npx prisma generate
 
+# 8. Build Remix App — now dev dependencies (tailwind) are available
 RUN npm run build
 
+# 9. Now it's safe to set NODE_ENV
+ENV NODE_ENV=production
+
+# 10. Start app
 CMD ["npm", "run", "docker-start"]
