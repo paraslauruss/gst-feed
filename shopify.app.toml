@@ -3,7 +3,7 @@
 client_id = "75adebd7f282df86fad5546b43a1410e"
 name = "gpt-feed"
 handle = "gpt-feed"
-application_url = "https://wrap-output-systems-beans.trycloudflare.com"
+application_url = "https://gst-feed.onrender.com"
 embedded = true
 
 [build]
@@ -27,9 +27,9 @@ scopes = "write_products, read_inventory"
 
 [auth]
 redirect_urls = [
-  "https://wrap-output-systems-beans.trycloudflare.com/auth/callback",
-  "https://wrap-output-systems-beans.trycloudflare.com/auth/shopify/callback",
-  "https://wrap-output-systems-beans.trycloudflare.com/api/auth/callback"
+  "https://gst-feed.onrender.com/auth/callback",
+  "https://gst-feed.onrender.com/auth/shopify/callback",
+  "https://gst-feed.onrender.com/api/auth/callback"
 ]
 
 [pos]
