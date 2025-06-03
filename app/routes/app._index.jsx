@@ -58,7 +58,7 @@ export const loader = async ({ request }) => {
         const hasOgPrice = /<meta\s+property=["']og:price:amount["']/.test(html);
 
         const hasJSONLD = /<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s.test(html);
-        const jsonLDBlock = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s);
+        // const jsonLDBlock = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s);
 
         console.log("🔍 hasOgType:", hasOgType);
         console.log("🔍 hasOgTitle:", hasOgTitle);
@@ -67,27 +67,26 @@ export const loader = async ({ request }) => {
         console.log("🔍 hasJSONLD:", hasJSONLD);
 
 
-        let hasProductJSONLD = false;
+        // let hasProductJSONLD = false;
 
-        if (jsonLDBlock && jsonLDBlock[1]) {
-          try {
-            const json = JSON.parse(jsonLDBlock[1]);
-            if (json["@type"] === "Product" || (Array.isArray(json["@graph"]) && json["@graph"].some(x => x["@type"] === "Product"))) {
-              hasProductJSONLD = true;
-            }
-          } catch (e) {
-            console.log("⚠️ JSON-LD parsing error at", url);
-          }
-        }
-        console.log("🔍 jsonLDBlock:", hasProductJSONLD);
+        // if (jsonLDBlock && jsonLDBlock[1]) {
+        //   try {
+        //     const json = JSON.parse(jsonLDBlock[1]);
+        //     if (json["@type"] === "Product" || (Array.isArray(json["@graph"]) && json["@graph"].some(x => x["@type"] === "Product"))) {
+        //       hasProductJSONLD = true;
+        //     }
+        //   } catch (e) {
+        //     console.log("⚠️ JSON-LD parsing error at", url);
+        //   }
+        // }
+        // console.log("🔍 jsonLDBlock:", hasProductJSONLD);
         const success =
           response.ok &&
           hasOgType &&
           hasOgTitle &&
           hasOgImage &&
           hasOgPrice &&
-          hasJSONLD &&
-          hasProductJSONLD;
+          hasJSONLD;
 
         console.log("🔍 Crawling:", url);
         console.log("📄 Status:", status);
