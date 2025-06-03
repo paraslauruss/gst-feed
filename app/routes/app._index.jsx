@@ -53,14 +53,40 @@ export const loader = async ({ request }) => {
         const status = response.status;
 
         const hasOgType = /<meta\s+property=["']og:type["']\s+content=["']product["']/.test(html);
+        const hasOgTitle = /<meta\s+property=["']og:title["']/.test(html);
+        const hasOgImage = /<meta\s+property=["']og:image["']/.test(html);
+        const hasOgPrice = /<meta\s+property=["']product:price:amount["']/.test(html);
 
-        const success = response.ok && hasOgType;
+        const hasJSONLD = /<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s.test(html);
+        const jsonLDBlock = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s);
+        let hasProductJSONLD = false;
+
+        if (jsonLDBlock && jsonLDBlock[1]) {
+          try {
+            const json = JSON.parse(jsonLDBlock[1]);
+            if (json["@type"] === "Product" || (Array.isArray(json["@graph"]) && json["@graph"].some(x => x["@type"] === "Product"))) {
+              hasProductJSONLD = true;
+            }
+          } catch (e) {
+            console.log("⚠️ JSON-LD parsing error at", url);
+          }
+        }
+
+        const success =
+          response.ok &&
+          hasOgType &&
+          hasOgTitle &&
+          hasOgImage &&
+          hasOgPrice &&
+          hasJSONLD &&
+          hasProductJSONLD;
 
         console.log("🔍 Crawling:", url);
         console.log("📄 Status:", status);
-        console.log("✅ Has og:type?", hasOgType);
+        console.log("✅ Valid OG & JSON-LD?", success);
+
         if (!success) {
-          console.log("❌ FAIL HTML Preview:", html.slice(0, 500));
+          console.log("❌ FAIL Preview:", html.slice(0, 500));
         }
 
         return { url, success };
