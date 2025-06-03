@@ -19,7 +19,10 @@ module.exports = {
   future: {
     v2_routeConvention: true,
     v2_meta: true,
+    v2_dev: true,
   },
+  tailwind: true,
+  postcss: true,
   routes(defineRoutes) {
     return defineRoutes((route) => {
       // Explicitly define API routes
