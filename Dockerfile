@@ -5,7 +5,7 @@ EXPOSE 3000
 
 WORKDIR /app
 
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 COPY package.json package-lock.json* ./
 
@@ -16,10 +16,9 @@ RUN npm remove @shopify/cli
 
 COPY . .
 
+COPY prisma ./prisma
 RUN npx prisma generate
 
 RUN npm run build
-
-ENV REMIX_DEV_ORIGIN=http://localhost:3000
 
 CMD ["npm", "run", "docker-start"]
