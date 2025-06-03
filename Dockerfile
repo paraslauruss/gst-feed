@@ -16,6 +16,10 @@ RUN npm remove @shopify/cli
 
 COPY . .
 
+RUN npx prisma generate
+
 RUN npm run build
+
+ENV REMIX_DEV_ORIGIN=http://localhost:3000
 
 CMD ["npm", "run", "docker-start"]
