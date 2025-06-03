@@ -59,6 +59,14 @@ export const loader = async ({ request }) => {
 
         const hasJSONLD = /<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s.test(html);
         const jsonLDBlock = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s);
+        
+        console.log("🔍 hasOgType:", hasOgType);
+        console.log("🔍 hasOgTitle:", hasOgTitle);
+        console.log("🔍 hasOgImage:", hasOgImage);
+        console.log("🔍 hasOgPrice:", hasOgPrice);
+        console.log("🔍 hasJSONLD:", hasJSONLD);
+        console.log("🔍 jsonLDBlock:", jsonLDBlock);
+
         let hasProductJSONLD = false;
 
         if (jsonLDBlock && jsonLDBlock[1]) {
