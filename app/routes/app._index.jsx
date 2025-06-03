@@ -65,7 +65,7 @@ export const loader = async ({ request }) => {
         console.log("🔍 hasOgImage:", hasOgImage);
         console.log("🔍 hasOgPrice:", hasOgPrice);
         console.log("🔍 hasJSONLD:", hasJSONLD);
-        console.log("🔍 jsonLDBlock:", jsonLDBlock);
+
 
         let hasProductJSONLD = false;
 
@@ -79,7 +79,7 @@ export const loader = async ({ request }) => {
             console.log("⚠️ JSON-LD parsing error at", url);
           }
         }
-
+        console.log("🔍 jsonLDBlock:", hasProductJSONLD);
         const success =
           response.ok &&
           hasOgType &&
