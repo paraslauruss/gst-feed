@@ -55,11 +55,11 @@ export const loader = async ({ request }) => {
         const hasOgType = /<meta\s+property=["']og:type["']\s+content=["']product["']/.test(html);
         const hasOgTitle = /<meta\s+property=["']og:title["']/.test(html);
         const hasOgImage = /<meta\s+property=["']og:image["']/.test(html);
-        const hasOgPrice = /<meta\s+property=["']product:price:amount["']/.test(html);
+        const hasOgPrice = /<meta\s+property=["']og:price:amount["']/.test(html);
 
         const hasJSONLD = /<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s.test(html);
         const jsonLDBlock = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>(.*?)<\/script>/s);
-        
+
         console.log("🔍 hasOgType:", hasOgType);
         console.log("🔍 hasOgTitle:", hasOgTitle);
         console.log("🔍 hasOgImage:", hasOgImage);
